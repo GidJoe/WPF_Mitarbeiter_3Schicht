@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using BusinessLayerSec;  // Ensure you include the necessary namespaces
+using BusinessLayerSec;
 
 namespace WPF_Mitarbeiter_3Schicht
 {
@@ -18,7 +18,7 @@ namespace WPF_Mitarbeiter_3Schicht
         {
             InitializeComponent();
 
-            // Provide the path to your database when initializing
+
             _businessLayer = new DataAccessLayer();
 
             LoadData();
@@ -26,13 +26,13 @@ namespace WPF_Mitarbeiter_3Schicht
 
         private void LoadData()
         {
-            // Get data from the business layer
+            // Hole alle Mitarbeiter aus der Datenbank über die BusinessLayer
             mitarbeiters = new ObservableCollection<Mitarbeiter>(_businessLayer.GetAllMitarbeiter());
 
-            // Set the data source for the DataGrid
+            // Datenquelle für das DataGrid festlegen
             mitarbeiterDataGrid.ItemsSource = mitarbeiters;
-
-            // Create a CollectionView for the main employee list.
+                        
+            // Erstellen einer CollectionView für die Hauptmitarbeiterliste.
             collectionView = CollectionViewSource.GetDefaultView(mitarbeiterDataGrid.ItemsSource);
         }
 
@@ -47,7 +47,7 @@ namespace WPF_Mitarbeiter_3Schicht
 
                     Mitarbeiter mitarbeiter = obj as Mitarbeiter;
 
-                    // Adjust and expand the filtering to cover all columns
+
                     return (mitarbeiter.Vorname.Contains(SearchBox.Text, StringComparison.OrdinalIgnoreCase) ||
                             mitarbeiter.Nachname.Contains(SearchBox.Text, StringComparison.OrdinalIgnoreCase) ||
                             mitarbeiter.Geburtstag.Contains(SearchBox.Text, StringComparison.OrdinalIgnoreCase) ||
@@ -62,5 +62,60 @@ namespace WPF_Mitarbeiter_3Schicht
                 };
             }
         }
+
+
+        private void Button_Add(object sender, RoutedEventArgs e)
+        {
+            var addWindow = new WPF_Mitarbeiter_3Schicht.WindowAddMitarbeiter();
+            var wasNewItemAdded = addWindow.ShowDialog();
+
+            // Wenn DialogResult true ist, dann wurde ein neues Item hinzugefügt.
+            if (wasNewItemAdded.HasValue && wasNewItemAdded.Value)
+            {
+                RefreshData();
+            }
+        }
+
+        private void RefreshData()
+        {
+            
+            mitarbeiters = new ObservableCollection<Mitarbeiter>(_businessLayer.GetAllMitarbeiter());
+
+            // Update DataGrid's ItemsSource.
+            
+            mitarbeiterDataGrid.ItemsSource = mitarbeiters;
+
+            // Update CollectionView quelle
+            
+            collectionView = CollectionViewSource.GetDefaultView(mitarbeiterDataGrid.ItemsSource);
+        }
+
+
+
+        private void BTN_Remove(object sender, RoutedEventArgs e)
+        {
+            
+            var selectedMitarbeiter = mitarbeiterDataGrid.SelectedItem as Mitarbeiter;
+
+            if (selectedMitarbeiter != null)
+            {
+                
+                var result = MessageBox.Show("Wirklich löschen?", "Löschen bestätigen", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    
+                    _businessLayer.DeleteMitarbeiter(selectedMitarbeiter.MID);
+                                        
+                    LoadData();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bitte wählen Sie einen Eintrag zum Löschen aus.", "Keine Auswahl getroffen", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+            }
+        }
+
     }
 }

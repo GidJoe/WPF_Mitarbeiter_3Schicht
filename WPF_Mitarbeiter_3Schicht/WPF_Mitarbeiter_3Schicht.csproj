@@ -5,7 +5,12 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Martz90-Hex-Files.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Martz90-Hex-Files.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessLayerSec\BusinessLayerSec.csproj" />

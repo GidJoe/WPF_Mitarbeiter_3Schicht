@@ -14,13 +14,16 @@ namespace BusinessLayerSec
 
         public List<Mitarbeiter> GetAllMitarbeiter()
         {
-            // Here, you could potentially add any business rules or transformations
-            // before returning the data to the UI. For now, we're simply retrieving 
-            // the data from the DAL and passing it through.
+                // Passthrough to the DAL schreiben
+                // und hier die neuen Mehtoden aufrufen
             return _dal.GetAllMitarbeiter();
         }
 
-        // Similarly, add methods for Create, Update, Delete, etc., and make sure to
-        // add the appropriate business logic or rules in these methods, if needed.
+                
+        //public void RemoveMitarbeiter(Mitarbeiter mitarbeiter)
+        //{
+        //    _dal.RemoveMitarbeiter(mitarbeiter);
+        //}
+
     }
 }

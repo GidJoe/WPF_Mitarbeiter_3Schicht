@@ -5,18 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Mitarbeiter_3Schicht"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1024">
+        Title="Mitarbeiterverwaltung" Height="450" Width="1024" MinWidth="1024" MinHeight="600">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="529*"/>
+            <RowDefinition Height="55*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="125*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="999*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
-            <DataGrid x:Name="mitarbeiterDataGrid" AutoGenerateColumns="True" Margin="23,60,23,60">
-            </DataGrid>
-        </Border>
 
-        <TextBox Name="SearchBox" Margin="0,38,848,0" TextChanged="SearchBox_TextChanged" Height="16" VerticalAlignment="Top" Grid.Column="1" />
+        <TextBox Name="SearchBox" Margin="39,37,0,0" TextChanged="SearchBox_TextChanged" Grid.Column="1" Height="16" VerticalAlignment="Top" HorizontalAlignment="Left" Width="151" />
+        <Label Content="Suche" HorizontalAlignment="Left" Margin="21,32,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <DataGrid x:Name="mitarbeiterDataGrid" IsReadOnly="True" CanUserAddRows="False" AutoGenerateColumns="True" Margin="23,60,23,60">
+            </DataGrid>
+
+        </Border>
+        <Button Grid.Column="1" Content="Hinzufügen" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Button_Add" Height="25" Width="76" Grid.Row="1"/>
+        <Button Grid.Column="1" Content="Entfernen" HorizontalAlignment="Left" Margin="94,0,0,0" VerticalAlignment="Center" Click="BTN_Remove" Height="25" Width="65" Grid.Row="1"/>
     </Grid>
 </Window>
